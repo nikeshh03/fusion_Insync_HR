@@ -168,6 +168,13 @@ export default function EmployeeForm({ employee, onSuccess, onCancel }: Employee
               {...register('previous_positions')}
             />
           </div>
+            <FormField
+              label="Certifications (comma-separated)"
+              placeholder="AWS Cloud Practitioner, CISSP, PMP"
+              error={errors.certifications?.message}
+              className="input-dark"
+              {...register('certifications')}
+          />
         </section>
 
         {/* Performance & Development */}

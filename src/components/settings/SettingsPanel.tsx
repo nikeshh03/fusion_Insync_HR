@@ -144,30 +144,6 @@ export default function SettingsPanel() {
           </div>
         </div>
       </div>
-
-      {/* Theme Settings */}
-      <div className="settings-card">
-        <div className="settings-section">
-          <h3 className="settings-heading">
-            <Palette className="h-5 w-5 text-yellow-400" />
-            Theme Settings
-          </h3>
-          
-          <div className="space-y-4 mt-4">
-            <div className="grid grid-cols-3 gap-4">
-              <button className="p-4 rounded-lg bg-purple-500/20 border border-purple-500/30 hover:bg-purple-500/30">
-                Purple Theme
-              </button>
-              <button className="p-4 rounded-lg bg-blue-500/20 border border-blue-500/30 hover:bg-blue-500/30">
-                Blue Theme
-              </button>
-              <button className="p-4 rounded-lg bg-green-500/20 border border-green-500/30 hover:bg-green-500/30">
-                Green Theme
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

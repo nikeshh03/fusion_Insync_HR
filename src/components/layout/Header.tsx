@@ -30,7 +30,7 @@ export function Header({ activeTab, setActiveTab, employeeCount }: HeaderProps) 
 
   return (
     <header className="bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800">
-      <div className="max-w-9xl mx-auto">
+      <div className="max-w-10xl mx-auto">
         {/* Main Header */}
         <div className="px-6 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-4">
@@ -43,19 +43,26 @@ export function Header({ activeTab, setActiveTab, employeeCount }: HeaderProps) 
           </div>
 
           <div className="flex items-center space-x-6">
-            <div className="flex items-center space-x-2 text-zinc-600 dark:text-zinc-400">
-              <BarChart3 className="h-5 w-5" />
-              <span>{employeeCount} Employees</span>
-            </div>
+              {/* Left side stats */}
+              <div className="flex items-center space-x-2 text-zinc-600 dark:text-zinc-400">
+                <BarChart3 className="h-5 w-5" />
+                <span>{employeeCount} Employees</span>
+              </div>
 
-            <div className="flex items-center space-x-4">
-              <IconButton icon={Bell} label="Notifications" />
-              {/* ThemeToggle removed */}
-              <div className="h-6 w-px bg-zinc-200 dark:bg-zinc-800" />
-              <span className="text-zinc-600 dark:text-zinc-400">{user?.email}</span>
-              <IconButton icon={LogOut} label="Sign Out" onClick={signOut} />
+              {/* Right side settings */}
+              <div className="flex items-center space-x-4 ml-auto">
+                <IconButton 
+                  icon={Settings} 
+                  label="Settings" 
+                  onClick={() => setActiveTab('settings')}
+                  className={activeTab === 'settings' ? 'text-white bg-zinc-800' : ''}
+                />
+                <IconButton icon={Bell} label="Notifications" />
+                <div className="h-6 w-px bg-zinc-200 dark:bg-zinc-800" />
+                <span className="text-zinc-600 dark:text-zinc-400">{user?.email}</span>
+                <IconButton icon={LogOut} label="Sign Out" onClick={signOut} />
+              </div>
             </div>
-          </div>
         </div>
 
         {/* Navigation */}

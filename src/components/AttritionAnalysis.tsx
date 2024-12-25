@@ -57,63 +57,29 @@ export default function AttritionAnalysis() {
   };
 
   function formatAnalysisText(text: string) {
-    const sections = text.split(/(?=\*\*[A-Z\s]+\*\*)/);
-    
-    return sections.map(section => {
-      return section
-        // Section headers
-        .replace(
-          /\*\*([A-Z\s]+)\*\*/,
-          '<h3 class="text-xl font-bold text-zinc-100 mb-3">$1</h3>'
-        )
-              // Bold text (non-headers)
-      .replace(
-        /\*\*([^*]+)\*\*/g,
-        '<span class="font-bold text-zinc-100">$1</span>'
-      )
-        // Main bullet points with labels
-        .replace(
-          /^•\s*([\w\s-]+):\s*(.+)$/gm,
-          '<div class="flex items-start gap-3 mb-4">\
-            <span class="text-zinc-400">•</span>\
-            <div class="flex-1">\
-              <span class="font-semibold text-zinc-100">$1:</span>\
-              <span class="text-zinc-300 ml-2">$2</span>\
-            </div>\
-          </div>'
-        )
-        // Numbered items with labels
-        .replace(
-          /^(\d+)\.\s*([\w\s-]+):\s*(.+)$/gm,
-          '<div class="flex items-start gap-3 mb-4">\
-            <span class="text-zinc-100 min-w-[24px]">$1.</span>\
-            <div class="flex-1">\
-              <span class="font-semibold text-zinc-100">$2:</span>\
-              <span class="text-zinc-300 ml-2">$3</span>\
-            </div>\
-          </div>'
-        )
-        // Regular numbered items
-        .replace(
-          /^(\d+)\.\s*(.+)$/gm,
-          '<div class="flex items-start gap-3 mb-2">\
-            <span class="text-zinc-100 min-w-[24px]">$1.</span>\
-            <span class="text-zinc-300">$2</span>\
-          </div>'
-        )
-        // Sub-bullet points
-        .replace(
-          /^•\s*(.+)$/gm,
-          '<div class="flex items-start gap-3 mb-2 ml-6">\
-            <span class="text-zinc-400">•</span>\
-            <span class="text-zinc-300">$1</span>\
-          </div>'
-        )
-        .trim();
-    }).join('\n');
+    return text
+      .split('\n')
+      .map(line => {
+        // Process bold text patterns
+        const processedLine = line.replace(
+          /\*\*([^*]+)\*\*/g, 
+          '<span class="font-bold text-zinc-100">$1</span>'
+        );
+        
+        if (line.trim() === '') return '<br/>';
+        return `<div class="text-zinc-300">${processedLine}</div>`;
+      })
+      .join('');
   }
+  // Component usage remains the same
+  <div 
+    className="prose prose-invert max-w-none"
+    dangerouslySetInnerHTML={{
+      __html: formatAnalysisText(aiAnalysis)
+    }}
+  />
 
-  return (
+return (
     <div className="space-y-6 p-6">
       {/* File Upload Section */}
       <div className="bg-white/30 dark:bg-zinc-900/30 backdrop-blur-sm rounded-lg shadow-md p-6 border border-white/10 dark:border-zinc-800/50">

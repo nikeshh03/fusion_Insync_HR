@@ -50,7 +50,7 @@ export function Header({ activeTab, setActiveTab, employeeCount }: HeaderProps) 
 
             <div className="flex items-center space-x-4">
               <IconButton icon={Bell} label="Notifications" />
-              <ThemeToggle />
+              {/* ThemeToggle removed */}
               <div className="h-6 w-px bg-zinc-200 dark:bg-zinc-800" />
               <span className="text-zinc-600 dark:text-zinc-400">{user?.email}</span>
               <IconButton icon={LogOut} label="Sign Out" onClick={signOut} />

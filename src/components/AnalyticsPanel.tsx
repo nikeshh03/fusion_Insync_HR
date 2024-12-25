@@ -20,7 +20,6 @@ function formatAnalysisText(text: string) {
     );
 }
 
-
 export default function AnalyticsPanel({ employeeData }: AnalyticsPanelProps) {
   const [attritionAnalysis, setAttritionAnalysis] = useState('');
   const [trainingRecommendations, setTrainingRecommendations] = useState('');
@@ -109,7 +108,7 @@ export default function AnalyticsPanel({ employeeData }: AnalyticsPanelProps) {
               dangerouslySetInnerHTML={{ 
                 __html: formatAnalysisText(attritionAnalysis)
                   .split('\n')
-                  .map(line => `<p class="text-gray-600 leading-relaxed">${line}</p>`)
+                  .map(line => `<p class=text-zinc-300 dark:text-zinc-100 leading-relaxed">${line}</p>`)
                   .join('')
               }}
             />
@@ -147,7 +146,7 @@ export default function AnalyticsPanel({ employeeData }: AnalyticsPanelProps) {
               __html: formatAnalysisText(trainingRecommendations) // Changed from attritionAnalysis
                 .split('\n')
                 .filter(line => line.trim())
-                .map(line => `<p class="text-gray-600 leading-relaxed">${line}</p>`)
+                .map(line => `<p class="text-zinc-300 dark:text-zinc-200 leading-relaxed">${line}</p>`)
                 .join('')
             }}
           />
@@ -185,7 +184,7 @@ export default function AnalyticsPanel({ employeeData }: AnalyticsPanelProps) {
               __html: formatAnalysisText(complianceReport) // Changed from attritionAnalysis
                 .split('\n')
                 .filter(line => line.trim())
-                .map(line => `<p class="text-gray-600 leading-relaxed">${line}</p>`)
+                .map(line => `<p class="text-zinc-300 dark:text-zinc-200 leading-relaxed">${line}</p>`)
                 .join('')
             }}
           />

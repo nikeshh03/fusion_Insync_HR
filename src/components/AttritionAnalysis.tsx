@@ -57,85 +57,102 @@ export default function AttritionAnalysis() {
   };
 
   function formatAnalysisText(text: string) {
-    return text
-      // First handle section headers
+    const sections = text.split(/(?=\*\*[A-Z\s]+\*\*)/);
+    
+    return sections.map(section => {
+      return section
+        // Section headers
+        .replace(
+          /\*\*([A-Z\s]+)\*\*/,
+          '<h3 class="text-xl font-bold text-zinc-100 mb-3">$1</h3>'
+        )
+              // Bold text (non-headers)
       .replace(
-        /(TREND ANALYSIS|DEPARTMENTAL INSIGHTS|KEY FINDINGS|RECOMMENDATIONS|PRIORITY ACTIONS):/g,
-        '<h3 class="text-xl font-bold text-gray-900 mb-4 mt-6">$1</h3>'
+        /\*\*([^*]+)\*\*/g,
+        '<span class="font-bold text-zinc-100">$1</span>'
       )
-      // Handle bold text with labels (e.g., "Overall Trend:")
-      .replace(
-        /\*\*([\w\s]+):\*\*/g,
-        '<span class="font-bold">$1:</span>'
-      )
-      // Handle remaining bold text
-      .replace(
-        /\*\*(.*?)\*\*/g,
-        '<span class="font-bold">$1</span>'
-      )
-      // Format bullet points with labels
-      .replace(
-        /^[•\-]\s*([\w\s]+):\s*(.*)/gm,
-        '• <span class="font-bold">$1:</span> $2'
-      )
-
-      // Format remaining bullet points
-      .replace(
-        /^[•\-]\s*(.+)/gm,
-        '• $1'
-      )
-      // Format remaining numbered items
-      .replace(
-        /^(\d+)\.\s*(.+)/gm,
-        '$1. $2'
-      )
-      // Add consistent spacing and styling
-      .split('\n')
-      .filter(line => line.trim())
-      .map(line => `<div class="mb-2 text-black-600">${line}</div>`)
-      .join('');
+        // Main bullet points with labels
+        .replace(
+          /^•\s*([\w\s-]+):\s*(.+)$/gm,
+          '<div class="flex items-start gap-3 mb-4">\
+            <span class="text-zinc-400">•</span>\
+            <div class="flex-1">\
+              <span class="font-semibold text-zinc-100">$1:</span>\
+              <span class="text-zinc-300 ml-2">$2</span>\
+            </div>\
+          </div>'
+        )
+        // Numbered items with labels
+        .replace(
+          /^(\d+)\.\s*([\w\s-]+):\s*(.+)$/gm,
+          '<div class="flex items-start gap-3 mb-4">\
+            <span class="text-zinc-100 min-w-[24px]">$1.</span>\
+            <div class="flex-1">\
+              <span class="font-semibold text-zinc-100">$2:</span>\
+              <span class="text-zinc-300 ml-2">$3</span>\
+            </div>\
+          </div>'
+        )
+        // Regular numbered items
+        .replace(
+          /^(\d+)\.\s*(.+)$/gm,
+          '<div class="flex items-start gap-3 mb-2">\
+            <span class="text-zinc-100 min-w-[24px]">$1.</span>\
+            <span class="text-zinc-300">$2</span>\
+          </div>'
+        )
+        // Sub-bullet points
+        .replace(
+          /^•\s*(.+)$/gm,
+          '<div class="flex items-start gap-3 mb-2 ml-6">\
+            <span class="text-zinc-400">•</span>\
+            <span class="text-zinc-300">$1</span>\
+          </div>'
+        )
+        .trim();
+    }).join('\n');
   }
 
   return (
     <div className="space-y-6 p-6">
       {/* File Upload Section */}
-      <div className="bg-white rounded-lg shadow-md p-6">
+      <div className="bg-white/30 dark:bg-zinc-900/30 backdrop-blur-sm rounded-lg shadow-md p-6 border border-white/10 dark:border-zinc-800/50">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold flex items-center gap-2">
-            <FileText className="h-5 w-5 text-blue-600" />
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+            <FileText className="h-5 w-5 text-blue-600 dark:text-blue-500" />
             Upload Attrition Data
           </h2>
           <div className="flex gap-4">
             <button
-              onClick={downloadTemplate}
-              className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+              onClick={downloadTemplate}  
+              className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-zinc-500/50 to-zinc-600/50 dark:from-zinc-700/50 dark:to-zinc-800/50 backdrop-blur-sm border border-white/10 dark:border-zinc-800/50 rounded-md hover:from-zinc-600/50 hover:to-zinc-700/50 dark:hover:from-zinc-600/50 dark:hover:to-zinc-700/50 transition-all shadow-lg hover:shadow-xl"
             >
-              <Download className="h-4 w-4 mr-2" />
+              <Download className="h-4 w-4 mr-2 text-blue-400" />
               Download Template
             </button>
-            <label className="cursor-pointer inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+            <label className="cursor-pointer inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-600/80 to-blue-700/80 backdrop-blur-sm border border-blue-500/20 rounded-md hover:from-blue-500/80 hover:to-blue-600/80 transition-all shadow-lg hover:shadow-xl">
               <Upload className="h-4 w-4 mr-2" />
               Upload CSV
               <input
                 type="file"
+                className="hidden"
                 accept=".csv"
                 onChange={handleFileUpload}
-                className="hidden"
               />
             </label>
           </div>
         </div>
 
         {/* CSV Format Guide */}
-        <div className="mt-4 p-4 bg-blue-50 rounded-md">
-          <h4 className="text-sm font-medium text-blue-800 flex items-center gap-2 mb-2">
+        <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800 rounded-md">
+          <h4 className="text-sm font-medium text-blue-800 dark:text-blue-300 flex items-center gap-2 mb-2">
             <AlertCircle className="h-4 w-4" />
             Required CSV Format
           </h4>
-          <p className="text-sm text-blue-700 mb-2">
+          <p className="text-sm text-blue-700 dark:text-blue-300 mb-2">
             Your CSV file must include the following columns:
           </p>
-          <ul className="list-disc list-inside text-sm text-blue-700 space-y-1">
+          <ul className="list-disc list-inside text-sm text-blue-700 dark:text-blue-300 space-y-1">
             <li>year (4-digit number, e.g., 2021)</li>
             <li>month (Full month name, e.g., January)</li>
             <li>department (Department name)</li>
@@ -151,31 +168,37 @@ export default function AttritionAnalysis() {
       </div>
 
       {attritionData.length > 0 && (
-        <>
-          {/* Charts Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <YearlyTrendChart data={attritionData} />
-            <DepartmentChart data={attritionData} />
-          </div>
+  <>
+      {/* Charts Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="bg-white/30 dark:bg-zinc-900/30 backdrop-blur-sm rounded-lg shadow-md p-6 border border-white/10 dark:border-zinc-800/50">
+          <YearlyTrendChart data={attritionData} />
+        </div>
+        <div className="bg-white/30 dark:bg-zinc-900/30 backdrop-blur-sm rounded-lg shadow-md p-6 border border-white/10 dark:border-zinc-800/50">
+          <DepartmentChart data={attritionData} />
+        </div>
+      </div>
 
-          {/* AI Analysis Section */}
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h3 className="text-lg font-semibold mb-4">AI Analysis Insights</h3>
-                    {loading ? (
-          <div className="flex items-center justify-center p-8">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-          </div>
-        ) : (
-          <div 
-            className="prose max-w-none"
-            dangerouslySetInnerHTML={{
-              __html: formatAnalysisText(aiAnalysis)
-            }}
-          />
-        )}
-          </div>
-        </>
+    {/* AI Analysis Section */}
+    <div className="bg-white/30 dark:bg-zinc-900/30 backdrop-blur-sm rounded-lg shadow-md p-6 border border-white/10 dark:border-zinc-800/50">
+      <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
+        AI Analysis Insights
+      </h3>
+      {loading ? (
+        <div className="flex items-center justify-center p-8">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        </div>
+      ) : (
+        <div 
+          className="prose prose-zinc dark:prose-invert max-w-none"
+          dangerouslySetInnerHTML={{
+            __html: formatAnalysisText(aiAnalysis)
+          }}
+        />
       )}
+    </div>
+  </>
+)}
     </div>
   );
 }

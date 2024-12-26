@@ -4,7 +4,6 @@ import App from './App';
 import { AuthProvider } from './lib/auth/AuthContext';
 import { ThemeProvider } from './lib/theme/ThemeContext';
 import { Analytics } from "@vercel/analytics/react"
-import { SpeedInsights } from "@vercel/speed-insights/next"
 import './index.css';
 
 const container = document.getElementById('root');
@@ -17,7 +16,6 @@ root.render(
     <ThemeProvider>
       <AuthProvider>
       <Analytics/>
-      <SpeedInsights/>
         <App />
       </AuthProvider>
     </ThemeProvider>

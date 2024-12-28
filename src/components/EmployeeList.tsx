@@ -72,11 +72,7 @@ export default function EmployeeList({ employees, onEdit, onDelete, onSelect }: 
                       onClick={() => onSelect(employee)}
                       label="View Analytics"
                     />
-                    <IconButton
-                      icon={Pencil}
-                      onClick={() => onEdit(employee)}
-                      label="Edit"
-                    />
+
                     <IconButton
                       icon={Trash2}
                       onClick={() => onDelete(employee.id)}

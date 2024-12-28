@@ -142,6 +142,7 @@ export const PROMPTS = {
     1. [First actionable recommendation]
     2. [Second actionable recommendation]
     3. [Third actionable recommendation]
+    4. [Fourth actionable recommendation]
 
     PRIORITY ACTIONS
     • Immediate: [Action items]

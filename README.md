@@ -63,6 +63,3 @@ We welcome contributions! Feel free to submit pull requests and report issues.
 
 ## License
 This project is licensed under the **MIT License**.
-
-## Contact
-For inquiries or support, reach out at [your-email@example.com].

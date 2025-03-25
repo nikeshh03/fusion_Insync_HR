@@ -3,7 +3,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
 
 async function generateResponse(prompt: string) {
-  const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' }); // Ensure correct model name
+  const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' }); // Ensure correct model name
 
   const result = await model.generateContent({
     contents: [{ role: "user", parts: [{ text: prompt }] }]

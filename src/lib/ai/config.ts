@@ -8,5 +8,8 @@ if (!GEMINI_API_KEY || GEMINI_API_KEY === 'your-gemini-api-key') {
   );
 }
 
+// Initialize the API
 export const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-export const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+
+// Use the latest model version
+export const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
